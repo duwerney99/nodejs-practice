@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pruebatecnica
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pruebatecnica
+  template:
+    metadata:
+      labels:
+        app: pruebatecnica
+    spec:
+      containers:
+      - name: pruebatecnica
+        image: gcr.io/my-nodejs-app-438001/pruebatecnica:latest
+        ports:
+        - containerPort: 8080

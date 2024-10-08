@@ -1,0 +1,31 @@
+-- Create table 'users'
+CREATE TABLE tecniTest.users (
+  user_id SERIAL PRIMARY KEY,   -- SERIAL es equivalente a AUTO_INCREMENT en MySQL
+  email VARCHAR(45) NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  password VARCHAR(200) NOT NULL,
+  registration_date TIMESTAMP NOT NULL  -- TIMESTAMP en lugar de DATETIME
+);
+
+-- Create table 'events'
+CREATE TABLE tecniTest.events (
+  event_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  description VARCHAR(45) NOT NULL,
+  created_date TIMESTAMP NOT NULL,
+  location VARCHAR(45) NOT NULL,
+  assistance INT NOT NULL,
+  event_date TIMESTAMP NOT NULL,
+  CONSTRAINT fk_user_event FOREIGN KEY (user_id) REFERENCES tecniTest.users (user_id)
+);
+
+-- Create table 'assistance'
+CREATE TABLE tecniTest.assistance (
+  assistance_id SERIAL PRIMARY KEY,
+  event_id INT NOT NULL,
+  user_id INT NOT NULL,
+  date TIMESTAMP NOT NULL,
+  CONSTRAINT fk_event_assistance FOREIGN KEY (event_id) REFERENCES tecniTest.events (event_id) ON DELETE CASCADE,
+  CONSTRAINT fk_user_assistance FOREIGN KEY (user_id) REFERENCES tecniTest.users (user_id)
+);
