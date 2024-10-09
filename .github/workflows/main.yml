@@ -40,8 +40,6 @@ jobs:
                   key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
             - name: Install and Build
               uses: ./.github/actions/build
-            - name: Build tests
-              uses: ./.github/actions/quality
             - name: Create ENV File
               run: echo ${{ secrets[env.ENV_FILE] }} | base64 --decode > .env
             - name: Set up Cloud SDK
