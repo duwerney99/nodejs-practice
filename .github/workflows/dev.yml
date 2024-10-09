@@ -20,17 +20,18 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
 
-    - name: Configurar Docker
+    - name: Configurar Docker para usar gcloud como helper
       run: |
         gcloud auth configure-docker
 
-    - name: Construir la imagen Docker
+    - name: Instalar Buildx
       run: |
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/pruebatecnica:$GITHUB_SHA .
+        docker run --privileged --rm tonistiigi/binfmt --install all
+        docker buildx create --use
 
-    - name: Push de la imagen a GCR
+    - name: Construir la imagen Docker usando Buildx
       run: |
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/pruebatecnica:$GITHUB_SHA
+        docker buildx build --platform linux/amd64 -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/pruebatecnica:$GITHUB_SHA --push .
 
     - name: Actualizar despliegue en Kubernetes
       run: |
