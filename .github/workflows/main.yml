@@ -8,7 +8,6 @@ on:
 env:
     SERVICE_NAME: ${{ github.event.repository.name }}
     REGION: us-central1
-    GCP_PROJECT: my-nodejs-app-438001
 jobs:
     build_and_deploy:
         runs-on: ubuntu-latest
@@ -25,6 +24,15 @@ jobs:
               id: extract_branch
             - name: Set branch-based environment variables
               uses: iamtheyammer/branch-env-vars@v1.0.3
+              with:
+                  GCP_PROJECT: |
+                      master:${{ secrets.PROJECT_ID_PROD }}
+                      testing:${{ secrets.PROJECT_ID_TEST }}
+                      !default:${{ secrets.PROJECT_ID_DEV }}
+                  ENV_FILE: |
+                      master:ENV_PROD
+                      testing:ENV_TEST
+                      !default:ENV_DEV
             - name: Cache node modules
               uses: actions/cache@v2
               with:
