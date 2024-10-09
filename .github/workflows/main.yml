@@ -46,6 +46,16 @@ jobs:
                   project_id: ${{ env.GCP_PROJECT }}
                   service_account_key: ${{ secrets.GCP_SA_KEY }}
                   export_default_credentials: true
+            - name: Set up Cloud SDK
+              uses: google-github-actions/setup-gcloud@v2
+              with:
+                project_id: ${{ env.GCP_PROJECT }}
+                service_account_key: ${{ secrets.GCP_SA_KEY }}
+                export_default_credentials: true
+            - name: Authenticate to Google Cloud
+              run: |
+                echo ${{ secrets.GCP_SA_KEY }} > ${HOME}/gcloud-service-key.json
+                gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             - name: Build and deploy image
               run: PROJECT_ID=$GCP_PROJECT COMMIT_SHA=${{ github.sha }} SERVICE_NAME=$SERVICE_NAME make deploy
             - name: Deploy to Cloud Run
