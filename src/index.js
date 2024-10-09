@@ -1,12 +1,12 @@
 require('dotenv').config();
 const express = require("express");
 const cors = require('cors');
-const { getConnection } = require('../src/uitls/database/mysql');
+const { getConnection } = require('./uitls/database/postgres');
 const { swaggerDocs } = require('./uitls/swagger')
 
 const UsersRouter = require('../src/routes/UsersRoutes')
 
-const app = express();
+const app = express();                                              
 
 const PORT = process.env.PORT || 3000;
 

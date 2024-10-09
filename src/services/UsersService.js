@@ -1,4 +1,4 @@
-const { getConnection } = require("../uitls/database/mysql");
+const { getConnection } = require("../uitls/database/postgres");
 const encrypt = require("../uitls/config");
 const jwt = require("jsonwebtoken");
 

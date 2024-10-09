@@ -1,6 +1,6 @@
 // getUsers.test.js
 const { GetUsers, GetUser } = require('../src/services/UsersService');
-const { getConnection } = require('../src/uitls/database/mysql'); 
+const { getConnection } = require('../src/uitls/database/postgres'); 
 
 jest.mock('../src/uitls/database/mysql'); 
 
