@@ -1,13 +1,20 @@
-FROM node:16-alpine
+# Usar una imagen base de Node.js
+FROM node:18-alpine
 
-WORKDIR /root/
+# Crear un directorio de trabajo
+WORKDIR /app
 
-COPY package.json yarn.lock ./
+# Copiar los archivos package.json y package-lock.json (si existe)
+COPY package*.json ./
 
-RUN yarn install --production=true
+# Instalar las dependencias del proyecto
+RUN npm install
 
-COPY ./dist ./dist/
+# Copiar el resto del código de la aplicación
+COPY . .
 
-COPY .env ./
+# Exponer el puerto en el que corre la app (ajusta según tu aplicación)
+EXPOSE 3000
 
-CMD [ "yarn", "start" ]
+# Comando para iniciar la aplicación
+CMD ["npm", "start"]
