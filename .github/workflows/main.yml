@@ -58,8 +58,9 @@ jobs:
 
             - name: Authenticate to Google Cloud
               run: |
-                echo "${{ secrets.GCP_SA_KEY }}" | jq -r . > "${HOME}/gcloud-service-key.json"
+                echo "${{ secrets.GCP_SA_KEY }}" | tr -d '\r' | jq -r . > "${HOME}/gcloud-service-key.json"
                 gcloud auth activate-service-account --key-file="${HOME}/gcloud-service-key.json"
+
 
             - name: Build and deploy image
               run: |
