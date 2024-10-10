@@ -4,7 +4,7 @@ require('dotenv').config();
 
 
 const pool = new Pool({
-    host: '34.173.13.198',
+    host: 'localhost',
     user: 'postgres',
     password: '12345',
     database: 'tecniTest',

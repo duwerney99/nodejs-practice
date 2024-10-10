@@ -21,6 +21,7 @@ const GetUserByEmail = async (email) => {
   }
 };
 
+
 const RegisterUser = async (user) => {
   const { email, password, name } = user;
 
@@ -49,6 +50,7 @@ const RegisterUser = async (user) => {
 
   return "User already exists";
 };
+
 
 const SignIn = async (user) => {
   const { email, password } = user;
@@ -81,6 +83,7 @@ const SignIn = async (user) => {
   }
   return "User not found";
 };
+
 
 const UpdateUser = async (usuarioId, user) => {
   try {
@@ -115,6 +118,7 @@ const UpdateUser = async (usuarioId, user) => {
     throw error;
   }
 };
+
 
 const DeleteUser = async (usuarioId) => {
   const connection = await getConnection();
