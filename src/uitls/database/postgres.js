@@ -1,13 +1,19 @@
 const { Pool } = require('pg');  
 require('dotenv').config();      
 
-// Crear un pool de conexiones
+
+
 const pool = new Pool({
     host: '34.173.13.198',
     user: 'postgres',
     password: '12345',
     database: 'tecniTest',
     port: '5432'
+    // host: 'localhost',
+    // user: 'postgres',
+    // password: '12345',
+    // database: 'tecniTest',
+    // port: '5432'
 });
 
 
