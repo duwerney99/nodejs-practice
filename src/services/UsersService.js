@@ -1,34 +1,25 @@
 const { getConnection } = require("../uitls/database/postgres");
 const encrypt = require("../uitls/config");
 const jwt = require("jsonwebtoken");
-
-
+const { getUsers, getUserById, getUserByEmail } = require("../repositories/postgres/UserRepository");
 
 const GetUsers = async () => {
-  const connection = await getConnection();
-  const result = await connection.query("SELECT * FROM tecniTest.users");
-  return result.rows;
+  return await getUsers();
 };
 
 const GetUser = async (userId) => {
-  const connection = await getConnection();
-  const result = await connection.query("SELECT * FROM tecniTest.users WHERE user_id = $1", [userId] );
-  return result.rows;
+  return await getUserById(userId);
 };
 
 
-const GetUserById = async (email) => {
-  const connection = await getConnection(); 
-
+const GetUserByEmail = async (email) => {
   try {
-    const result = await connection.query("SELECT * FROM tecniTest.users WHERE email = $1", [email]);
-    return result.rows;  
+    return await getUserByEmail(email);
   } catch (error) {
     console.error('Error fetching user by email:', error);
     throw error;
   }
 };
-
 
 const RegisterUser = async (user) => {
   const { email, password, name } = user;
@@ -36,7 +27,7 @@ const RegisterUser = async (user) => {
   const date = Date();
   const date_time = new Date(date);
 
-  const userExist = await GetUserById(email);
+  const userExist = await GetUserByEmail(email);
 
   if (userExist.length === 0) {
     const encryptedPassword = await encrypt.encrypt(password);
@@ -62,7 +53,7 @@ const RegisterUser = async (user) => {
 const SignIn = async (user) => {
   const { email, password } = user;
 
-  const databaseUser = await GetUserById(email);
+  const databaseUser = await GetUserByEmail(email);
 
   if (databaseUser) {
     const validPassword = encrypt.compare(password, databaseUser[0].password);
@@ -93,7 +84,7 @@ const SignIn = async (user) => {
 
 const UpdateUser = async (usuarioId, user) => {
   try {
-    const databaseUser = await GetUserById(user.email);
+    const databaseUser = await GetUserByEmail(user.email);
     
     if (!databaseUser || databaseUser.length === 0) {
       throw new Error("User not found");
@@ -155,7 +146,7 @@ const DeleteUser = async (usuarioId) => {
 
 module.exports = {
   GetUsers,
-  GetUserById,
+  GetUserByEmail,
   GetUser,
   RegisterUser,
   UpdateUser,
